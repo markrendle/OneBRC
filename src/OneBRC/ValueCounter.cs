@@ -2,7 +2,7 @@
 
 public struct ValueCounter
 {
-    // private string _name;
+    private string _name;
     private int _count;
     private double _total;
     private double _min;
@@ -10,10 +10,10 @@ public struct ValueCounter
 
     public void SetName(string name)
     {
-        // _name = name;
+        _name = name;
     }
 
-    public void Count(double value)
+    public void Record(double value)
     {
         if (_count == 0)
         {
@@ -40,6 +40,7 @@ public struct ValueCounter
     public double Mean => _total / _count;
     public double Min => _min;
     public double Max => _max;
+    public int Count => _count;
 
-    // public string Name => _name;
+    public string Name => _name;
 }

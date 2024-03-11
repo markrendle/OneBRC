@@ -6,16 +6,18 @@ public static class Stations
 
     public static IEnumerable<string> Randomize(int count)
     {
-        int length = _stations.Length;
+        int length = AllStations.Length;
         
         for (int i = 0; i < count; i++)
         {
             int index = _random.Next(0, length);
-            yield return _stations[index];
+            yield return AllStations[index];
         }
     }
+
+    public static IEnumerable<string> All() => AllStations.AsEnumerable();
     
-    private static readonly string[] _stations =
+    private static readonly string[] AllStations =
     [
         "Abha",
         "Abidjan",

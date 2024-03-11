@@ -1,4 +1,5 @@
-﻿using GenerateData;
+﻿using System.Runtime.InteropServices;
+using GenerateData;
 
 if (args.Length != 2)
 {
@@ -17,16 +18,24 @@ using var writer = File.CreateText(path);
 
 int count = 0;
 
+var dict = new Dictionary<string, float>();
+
 foreach (var station in Stations.Randomize(rows))
 {
     if (++count % 1000000 == 0)
     {
         Console.WriteLine($"{count}...");
     }
-    float value = Random.Shared.Next(100) - 50f;
-    float point = Random.Shared.Next(1000);
-    float actual = value + (point / 1000f);
-    writer.Write($"{station};{actual}\n");
+
+    ref var value = ref CollectionsMarshal.GetValueRefOrAddDefault(dict, station, out bool existed);
+    if (!existed)
+    {
+        value = (Random.Shared.NextSingle() - 0.5f) * Random.Shared.Next(100);
+    }
+    
+    var actual = value + (Random.Shared.NextSingle() - 0.5f) * Random.Shared.Next(10);
+    
+    writer.Write($"{station};{actual:F4}\n");
 }
 
 Console.WriteLine("Done.");

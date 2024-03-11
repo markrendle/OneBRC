@@ -8,13 +8,12 @@ public static class FileAnalyzer
 {
     private const byte NewLine = (byte)'\n';
     
-    public static long[] FindOffsets(string filePath)
+    public static long[] FindOffsets(string filePath, int threadCount)
     {
         var info = new FileInfo(filePath);
-        var processorCount = Environment.ProcessorCount;
 
-        var roughSize = info.Length / processorCount;
-        var offsets = new long[processorCount];
+        var roughSize = info.Length / threadCount;
+        var offsets = new long[threadCount];
         
         using var handle = File.OpenHandle(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
 
@@ -22,11 +21,11 @@ public static class FileAnalyzer
 
         long currentOffset = 0;
 
-        for (int i = 0; i < processorCount; i++)
+        for (int i = 0; i < threadCount; i++)
         {
             offsets[i] = currentOffset;
 
-            if (i + 1 == processorCount) break;
+            if (i + 1 == threadCount) break;
             
             currentOffset += roughSize;
             
@@ -34,17 +33,18 @@ public static class FileAnalyzer
 
             var bytes = buffer[..read];
 
-            // var all = Encoding.UTF8.GetString(bytes);
-
             int byteNewlineIndex = bytes.IndexOf(NewLine);
 
             if (byteNewlineIndex >= 0)
             {
                 currentOffset += byteNewlineIndex + 1;
             }
+#if(DEBUG)
             read = RandomAccess.Read(handle, buffer, currentOffset);
             bytes = buffer[..read];
-            // all = Encoding.UTF8.GetString(bytes);
+            var line = Encoding.UTF8.GetString(bytes);
+            Console.WriteLine(line);
+#endif
         }
 
         return offsets;

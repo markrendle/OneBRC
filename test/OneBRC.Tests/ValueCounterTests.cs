@@ -11,13 +11,13 @@ public class ValueCounterTests
         ReadOnlyMemory<byte> key = "London"u8.ToArray();
 
         ref var counter = ref CollectionsMarshal.GetValueRefOrAddDefault(dict, key, out _);
-        counter.Count(1);
+        counter.Record(1);
         
         ref var counter2 = ref CollectionsMarshal.GetValueRefOrAddDefault(dict, key, out _);
-        counter2.Count(100);
+        counter2.Record(100);
         
         Assert.True(dict.TryGetValue(key, out counter));
-        Assert.Equal(1, counter.Min);
-        Assert.Equal(100, counter.Max);
+        Assert.Equal(1d, counter.Min, 3);
+        Assert.Equal(100d, counter.Max, 3);
     }
 }
