@@ -27,6 +27,7 @@ internal class MemoryParser
     {
         byte* pointer = null;
         _viewAccessor.SafeMemoryMappedViewHandle.AcquirePointer(ref pointer);
+        pointer += _fileOffset.Offset;
 
         const int chunkSize = 1024 * 1024 * 16;
 

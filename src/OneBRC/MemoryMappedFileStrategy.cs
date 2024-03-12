@@ -9,8 +9,6 @@ public class MemoryMappedFileStrategy
     private readonly int _threadCount;
     private readonly ParallelOptions _options;
     
-    public List<string> Lines { get; } = [];
-
     public MemoryMappedFileStrategy(int threadCount)
     {
         _threadCount = threadCount;
