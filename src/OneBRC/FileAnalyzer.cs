@@ -43,7 +43,7 @@ public static class FileAnalyzer
             read = RandomAccess.Read(handle, buffer, currentOffset);
             bytes = buffer[..read];
             var line = Encoding.UTF8.GetString(bytes);
-            Console.WriteLine(line);
+            Console.WriteLine(line.Split('\n').First());
 #endif
         }
 

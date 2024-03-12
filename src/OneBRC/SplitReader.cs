@@ -53,10 +53,11 @@ public class SplitReader
         var span = line;
         int scIndex = span.IndexOf(Semicolon);
         if (scIndex < 0) return;
-        if (!float.TryParse(span[(scIndex + 1)..], out float value)) return;
+        float value = FastParse.FastParseFloat(span[(scIndex + 1)..]);
+        // if (!float.TryParse(span[(scIndex + 1)..], out float value)) return;
         
         var key = line[..scIndex];
-        var longKey = LongKey(key);
+        var longKey = KeyHash.FastKey(key);
 
         ref var counter = ref CollectionsMarshal.GetValueRefOrAddDefault(_dictionary, longKey, out bool existed);
 
