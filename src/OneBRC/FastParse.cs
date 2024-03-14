@@ -59,4 +59,28 @@ public static class FastParse
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static int FastParseDigit(byte b) => b - 48;
+    
+    public static long FastParseLongFromFloat(ReadOnlySpan<byte> bytes)
+    {
+        int sign = 1;
+        long value = 0;
+
+        for (int i = 0; i < bytes.Length; i++)
+        {
+            switch (bytes[i])
+            {
+                case Minus:
+                    sign = -1;
+                    break;
+                case Point:
+                    continue;
+                default:
+                    value = value * 10 + FastParseDigit(bytes[i]);
+                    break;
+            }
+        }
+
+        return value * sign;
+    }
+
 }

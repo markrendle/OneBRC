@@ -11,10 +11,23 @@ public class FastParseTests
     [InlineData("42.1", 42.1f)]
     [InlineData("42.235", 42.235f)]
     [InlineData("-42.235", -42.235f)]
-    public void Parses(string input, float expected)
+    public void ParseFloat(string input, float expected)
     {
         var bytes = Encoding.UTF8.GetBytes(input);
         var actual = FastParse.FastParseFloat(bytes);
+        Assert.Equal(expected, actual);
+    }
+    
+    [Theory]
+    [InlineData("1.001", 1001L)]
+    [InlineData("42.987", 42987L)]
+    [InlineData("-42.000", -42000)]
+    [InlineData("42.000", 42000)]
+    [InlineData("-42.200", -42200)]
+    public void ParseLong(string input, long expected)
+    {
+        var bytes = Encoding.UTF8.GetBytes(input);
+        var actual = FastParse.FastParseLongFromFloat(bytes);
         Assert.Equal(expected, actual);
     }
 }

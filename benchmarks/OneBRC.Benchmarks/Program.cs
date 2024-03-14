@@ -1,4 +1,4 @@
 ﻿using BenchmarkDotNet.Running;
 using OneBRC.Benchmarks;
 
-BenchmarkRunner.Run<KeyHashBenchmarks>();
+BenchmarkRunner.Run<FastParseBenchmarks>();

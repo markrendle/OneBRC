@@ -66,7 +66,7 @@ internal class MemoryParser
             }
             
             var number = line[(sc + 1)..];
-            var value = FastParse.FastParseFloat(number);
+            var value = FastParse.FastParseLongFromFloat(number);
             
             var name = line[..sc];
             var key = KeyHash.FastKey(name);

@@ -4,16 +4,16 @@ public struct ValueCounter
 {
     private string _name;
     private int _count;
-    private double _total;
-    private double _min;
-    private double _max;
+    private long _total;
+    private long _min;
+    private long _max;
 
     public void SetName(string name)
     {
         _name = name;
     }
 
-    public void Record(double value)
+    public void Record(long value)
     {
         if (_count == 0)
         {
@@ -35,11 +35,12 @@ public struct ValueCounter
         _total += other._total;
         if (other._min < _min) _min = other._min;
         if (other._max < _max) _max = other._max;
+        if (_name is null) _name = other._name;
     }
 
-    public double Mean => _total / _count;
-    public double Min => _min;
-    public double Max => _max;
+    public double Mean => ((double)_total / _count) / 1000;
+    public double Min => (double)_min / 1000;
+    public double Max => (double)_max / 1000;
     public int Count => _count;
 
     public string Name => _name;

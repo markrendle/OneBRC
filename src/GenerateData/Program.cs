@@ -35,7 +35,7 @@ foreach (var station in Stations.Randomize(rows))
     
     var actual = value + (Random.Shared.NextSingle() - 0.5f) * Random.Shared.Next(10);
     
-    writer.Write($"{station};{actual:F4}\n");
+    writer.Write($"{station};{actual:F3}\n");
 }
 
 Console.WriteLine("Done.");
